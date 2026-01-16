@@ -1,27 +1,36 @@
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+import os
+
+# 1. 폰트 파일 경로 설정 (파일명 대소문자 주의: NanumGothic.ttf)
+font_path = os.path.join(os.getcwd(), "NanumGothic.ttf")
+
+# 2. 폰트가 있는지 확인 후 적용
+if os.path.exists(font_path):
+    # 폰트 매니저에 폰트 추가
+    prop = fm.FontProperties(fname=font_path)
+    # Matplotlib 전역 설정 업데이트
+    plt.rcParams['font.family'] = prop.get_name()
+    plt.rcParams['axes.unicode_minus'] = False
+    
+    # 캐시된 폰트 리스트에 강제 등록
+    fm.fontManager.addfont(font_path)
+    
+    # 💡 핵심: 현재 활성화된 테마의 폰트까지 강제로 고정
+    plt.rc('font', family=prop.get_name())
+else:
+    # 폰트가 없을 때 화면에 경로를 출력해서 확인 (디버깅용)
+    import streamlit as st
+    st.error(f"폰트를 찾지 못했습니다. 경로 확인: {font_path}")
+
+# --- 이후에 그래프 그리는 코드 작성 ---
+# fig, ax = plt.subplots(...)
+# sns.barplot(..., ax=ax)
 import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import platform
-
-# -----------------------------------------------------------------------------
-# 1. 한글 폰트 설정 (맥, 윈도우, 리눅스 호환)
-# -----------------------------------------------------------------------------
-# 그래프에 한글을 표시하기 위해 운영체제(OS)에 맞는 폰트를 자동으로 설정합니다.
-if platform.system() == 'Darwin': # 맥(Mac)
-    plt.rc('font', family='AppleGothic')
-elif platform.system() == 'Windows': # 윈도우(Windows)
-    plt.rc('font', family='Malgun Gothic')
-else: # 리눅스(Linux) 또는 Streamlit Cloud 등
-    # 리눅스 환경에서는 한글 폰트가 없을 수 있어 경고 처리를 하거나 나눔고딕 등을 사용해야 합니다.
-    # 일단 기본 폰트로 설정하되, 깨질 경우 'nanum-gothic' 설치가 필요할 수 있습니다.
-    try:
-        plt.rc('font', family='NanumGothic')
-    except:
-        plt.rc('font', family='DejaVu Sans')
-
-# 마이너스 기호(-)가 깨지는 현상 방지
-plt.rcParams['axes.unicode_minus'] = False
 
 
 # -----------------------------------------------------------------------------
