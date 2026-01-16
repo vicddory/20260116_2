@@ -43,7 +43,7 @@ st.markdown("공공데이터포털의 **'CIS지역본부'** 데이터를 활용�
 # @st.cache_data는 데이터를 매번 새로 읽지 않고 메모리에 저장해두어 속도를 높입니다.
 @st.cache_data
 def load_data():
-    file_path = "CIS지역본부.csv" # 파일 경로 (같은 폴더에 있어야 함)
+    file_path = "./data/CIS지역본부.csv" # 파일 경로 (같은 폴더에 있어야 함)
     
     # 공공데이터는 보통 'cp949' 인코딩을 사용합니다.
     # 만약 에러가 나면 자동으로 'utf-8'로 다시 시도하도록 작성했습니다.
